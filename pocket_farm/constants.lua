@@ -1,0 +1,2 @@
+CROP_MAX_AGE = 1
+CROP_MIN_AGE = 0

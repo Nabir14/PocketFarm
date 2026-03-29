@@ -1,3 +1,19 @@
+function Farm(grid_size, size, position)
+    local farm_lands = {}
+    
+    for x = 1, size.x do
+        for y = 1, size.y do
+            table.insert(farm_lands, FarmLand(Vector2D((x+position.x)*grid_size, (y+position.y)*grid_size)))
+        end
+    end
+    
+    local data = {
+        farm_lands = farm_lands
+    }
+
+    return data
+end
+
 function FarmLand(position)
     local data = {
         position = position,

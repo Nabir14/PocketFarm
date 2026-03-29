@@ -39,23 +39,18 @@ function love.load()
         carrot_sprite_1,
         carrot_sprite_2
     })
-    
-    farm_land = FarmLand(GridPosition(16, Vector2D(window_center.x, window_center.y)))
-    farm_land1 = FarmLand(GridPosition(16, Vector2D(window_center.x+32, window_center.y)))
+
+    farm = Farm(48, Vector2D(3, 3), Vector2D(6, 4))
 end
 
 function love.mousepressed(x, y, button)
-    if IsMouseAboveFarmland(farm_land, Vector2D(x, y)) then
-        HarvestCrop(farm_land, carrot_crop)
-    elseif IsMouseAboveFarmland(farm_land1, Vector2D(x, y)) then
-        HarvestCrop(farm_land1, carrot_crop)
-    end
+    OnFarmInteraction(farm, Vector2D(x, y), InteractedWithFarmLand)
 end
 
 function love.update(dt)
     PocketEngineUpdate(dt)
 
-    local grid_mouse_position = GridPosition(16, Vector2D(love.mouse.getPosition()))    
+    local grid_mouse_position = GridPosition(48, Vector2D(love.mouse.getPosition()))    
     carrot_seeds.rect.position = grid_mouse_position
 
     CallEverySecond(1, UpdateGameTick)
@@ -63,12 +58,14 @@ end
 
 function love.draw()
     DrawGameObject(map)
-    DrawFarmLand(farm_land)
-    DrawFarmLand(farm_land1)
+    DrawFarm(farm)
     DrawGameObject(carrot_seeds)
 end
 
 function UpdateGameTick()
-    UpdateFarmLand(farm_land)
-    UpdateFarmLand(farm_land1)
+    UpdateFarm(farm)
+end
+
+function InteractedWithFarmLand(farm_land)
+    HarvestCrop(farm_land, carrot_crop)
 end

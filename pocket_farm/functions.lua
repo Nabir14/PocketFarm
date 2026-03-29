@@ -1,6 +1,26 @@
 require("pocket_farm.engine")
 require("pocket_farm.constants")
 
+function UpdateFarm(farm)
+    for i, farm_land in ipairs(farm.farm_lands) do
+        UpdateFarmLand(farm_land)
+    end
+end
+
+function DrawFarm(farm)
+    for i, farm_land in ipairs(farm.farm_lands) do
+        DrawFarmLand(farm_land)
+    end
+end
+
+function OnFarmInteraction(farm, mouse_position, callback)
+    for i, farm_land in ipairs(farm.farm_lands) do
+        if IsMouseAboveFarmland(farm_land, mouse_position) then
+            callback(farm_land)
+        end
+    end
+end
+
 function IsMouseAboveFarmland(farm_land, mouse_position)
     local grid_mouse_position = GridPosition(16, mouse_position)
 

@@ -1,6 +1,43 @@
 require("pocket_farm.engine")
 require("pocket_farm.constants")
 
+function IsMouseAboveFarmland(farm_land, mouse_position)
+    if mouse_position.x == farm_land.position.x and mouse_position.y == farm_land.position.y then
+        return true
+    else
+        return false
+    end
+end
+
+function IsCropFullyGrown(crop)
+    if crop.age >= CROP_MAX_AGE then
+        return true
+    else
+        return false
+    end
+end
+
+function OnFarmInteraction(farm, position, callback)
+    for i, farm_land in ipairs(farm.farm_lands) do
+        if IsMouseAboveFarmland(farm_land, GridPosition(GRID_SNAP, position)) then
+            callback(farm_land)
+        end
+    end
+end
+
+function HarvestCrop(farm_land, crop)
+    if farm_land.is_occupied then
+        if IsCropFullyGrown(farm_land.occupied_by) then
+            farm_land.is_occupied = false
+            farm_land.occupied_by = {}
+        end
+    else
+        crop.object.rect.position = farm_land.position
+        farm_land.is_occupied = true
+        farm_land.occupied_by = Crop(crop.object, crop.age_sprites)
+    end
+end
+
 function UpdateFarm(farm)
     for i, farm_land in ipairs(farm.farm_lands) do
         UpdateFarmLand(farm_land)
@@ -10,24 +47,6 @@ end
 function DrawFarm(farm)
     for i, farm_land in ipairs(farm.farm_lands) do
         DrawFarmLand(farm_land)
-    end
-end
-
-function OnFarmInteraction(farm, mouse_position, callback)
-    for i, farm_land in ipairs(farm.farm_lands) do
-        if IsMouseAboveFarmland(farm_land, mouse_position) then
-            callback(farm_land)
-        end
-    end
-end
-
-function IsMouseAboveFarmland(farm_land, mouse_position)
-    local grid_mouse_position = GridPosition(16, mouse_position)
-
-    if grid_mouse_position.x == farm_land.position.x and grid_mouse_position.y == farm_land.position.y then
-        return true
-    else
-        return false
     end
 end
 
@@ -45,27 +64,5 @@ end
 function DrawFarmLand(farm_land)
     if farm_land.is_occupied then
         DrawGameObject(farm_land.occupied_by.object)
-    end
-end
-
-
-function IsCropFullyGrown(crop)
-    if crop.age >= CROP_MAX_AGE then
-        return true
-    else
-        return false
-    end
-end
-
-function HarvestCrop(farm_land, crop)
-    if farm_land.is_occupied then
-        if IsCropFullyGrown(farm_land.occupied_by) then
-            farm_land.is_occupied = false
-            farm_land.occupied_by = {}
-        end
-    else
-        crop.object.rect.position = farm_land.position
-        farm_land.is_occupied = true
-        farm_land.occupied_by = Crop(crop.object, crop.age_sprites)
     end
 end

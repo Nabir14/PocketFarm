@@ -1,9 +1,10 @@
 function Farm(grid_size, size, position)
     local farm_lands = {}
-    
+    local start_position = Vector2D(position.x - (size.x * 0.5), position.y - (size.y * 0.5))
+
     for x = 1, size.x do
         for y = 1, size.y do
-            table.insert(farm_lands, FarmLand(Vector2D((x+position.x)*grid_size, (y+position.y)*grid_size)))
+            table.insert(farm_lands, FarmLand(Vector2D((x+start_position.x)*grid_size, (y+start_position.y)*grid_size)))
         end
     end
     

@@ -4,10 +4,13 @@ require("pocket_farm.objects")
 
 function love.load()
     PocketEngineInit()
-
+    love.mouse.setVisible(false)
+    
     local window_center = Vector2D(love.graphics.getWidth() * 0.5, love.graphics.getHeight() * 0.5)
     local map_sprite = Sprite("assets/map.png")
     local items_spritesheet = Sprite("assets/items.png")
+    
+    items_spritesheet.cell_size = Vector2D(16, 16)
     
     map = GameObject(map_sprite)
     map.rect.position = Vector2D(window_center.x, window_center.y)
@@ -16,8 +19,6 @@ function love.load()
         map.sprite.texture_data.image_data:getHeight() * 0.5
     )
     map.rect.scale = Vector2D(4, 4)
-
-    items_spritesheet.cell_size = Vector2D(16, 16)
 
     local carrot = GameObject(items_spritesheet)
     carrot.sprite.cell_position = Vector2D(3, 2)
@@ -29,10 +30,10 @@ function love.load()
     carrot_seeds.rect.scale = Vector2D(3, 3)
     carrot_seeds.rect.origin = Vector2D(carrot_seeds.sprite.cell_size.x * 0.5, carrot_seeds.sprite.cell_size.y * 0.5)
 
-    carrot_sprite_1 = Sprite(items_spritesheet)
+    local carrot_sprite_1 = Sprite(items_spritesheet)
     carrot_sprite_1.cell_position = Vector2D(3, 2)
 
-    carrot_sprite_2 = Sprite(items_spritesheet)
+    local carrot_sprite_2 = Sprite(items_spritesheet)
     carrot_sprite_2.cell_position = Vector2D(4, 2)
     
     carrot_crop = Crop(carrot, {
@@ -40,17 +41,17 @@ function love.load()
         carrot_sprite_2
     })
 
-    farm = Farm(48, Vector2D(3, 3), Vector2D(6, 4))
+    farm = Farm(GRID_SNAP, Vector2D(2, 2), Vector2D(12, 9))
 end
 
 function love.mousepressed(x, y, button)
-    OnFarmInteraction(farm, Vector2D(x, y), InteractedWithFarmLand)
+    OnFarmInteraction(farm, carrot_seeds.rect.position, InteractedWithFarmLand)
 end
 
 function love.update(dt)
     PocketEngineUpdate(dt)
 
-    local grid_mouse_position = GridPosition(48, Vector2D(love.mouse.getPosition()))    
+    local grid_mouse_position = GridPosition(GRID_SNAP, Vector2D(love.mouse.getPosition()))    
     carrot_seeds.rect.position = grid_mouse_position
 
     CallEverySecond(1, UpdateGameTick)

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="Crop" format=3 uid="uid://giqvskfsaj1a"]
+
+[ext_resource type="Script" uid="uid://cswwp8jyiy27d" path="res://gamefiles/scripts/resources/crop.gd" id="1_usl00"]
+
+[resource]
+script = ExtResource("1_usl00")
+name = "Carrot"
+max_age = 1
+age_sprites = Array[Vector2i]([Vector2i(3, 2), Vector2i(4, 2)])
+metadata/_custom_type_script = "uid://cswwp8jyiy27d"

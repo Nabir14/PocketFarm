@@ -1,0 +1,153 @@
+[gd_scene format=4 uid="uid://b8v4ay5bhr7e"]
+
+[ext_resource type="Script" uid="uid://c5gy41t8r22ht" path="res://gamefiles/scripts/levels/world.gd" id="1_k2o11"]
+[ext_resource type="Texture2D" uid="uid://58tvo5uhr775" path="res://gamefiles/textures/tiles/Water_Tile.png" id="1_ysfsh"]
+[ext_resource type="Texture2D" uid="uid://dsp27vc0ml7a6" path="res://gamefiles/textures/tiles/Path_Tile.png" id="2_k2o11"]
+[ext_resource type="Texture2D" uid="uid://bkods1o3ni5fj" path="res://gamefiles/textures/tiles/FarmLand_Tile.png" id="3_nakyh"]
+[ext_resource type="Texture2D" uid="uid://clsv37anbft0f" path="res://gamefiles/textures/tiles/Grass_Middle.png" id="4_y0rdo"]
+[ext_resource type="Texture2D" uid="uid://bh4u1tj7jkkkc" path="res://gamefiles/textures/tiles/Path_Middle.png" id="5_uhll3"]
+[ext_resource type="Script" uid="uid://b3f5wxfelvgjx" path="res://gamefiles/scripts/managers/farm_manager.gd" id="7_nakyh"]
+[ext_resource type="Texture2D" uid="uid://cyybswdgsfwgi" path="res://gamefiles/textures/items.png" id="8_y0rdo"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wb8wt"]
+texture = ExtResource("1_ysfsh")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jglce"]
+texture = ExtResource("2_k2o11")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_8v8f1"]
+texture = ExtResource("3_nakyh")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_p3av0"]
+texture = ExtResource("4_y0rdo")
+0:0/0 = 0
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_mhwil"]
+texture = ExtResource("5_uhll3")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_d1g8r"]
+sources/0 = SubResource("TileSetAtlasSource_wb8wt")
+sources/1 = SubResource("TileSetAtlasSource_jglce")
+sources/2 = SubResource("TileSetAtlasSource_8v8f1")
+sources/3 = SubResource("TileSetAtlasSource_p3av0")
+sources/4 = SubResource("TileSetAtlasSource_mhwil")
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_uhll3"]
+texture = ExtResource("8_y0rdo")
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+0:2/0 = 0
+1:2/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+0:3/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+6:3/0 = 0
+0:4/0 = 0
+1:4/0 = 0
+2:4/0 = 0
+4:4/0 = 0
+0:5/0 = 0
+1:5/0 = 0
+2:5/0 = 0
+3:5/0 = 0
+4:5/0 = 0
+0:6/0 = 0
+1:6/0 = 0
+2:6/0 = 0
+4:6/0 = 0
+0:7/0 = 0
+1:7/0 = 0
+2:7/0 = 0
+0:8/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+0:9/0 = 0
+1:9/0 = 0
+2:9/0 = 0
+3:9/0 = 0
+0:10/0 = 0
+1:10/0 = 0
+2:10/0 = 0
+3:10/0 = 0
+0:11/0 = 0
+1:11/0 = 0
+2:11/0 = 0
+3:11/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_wb8wt"]
+sources/0 = SubResource("TileSetAtlasSource_uhll3")
+
+[node name="world" type="Node2D" unique_id=2084201112]
+script = ExtResource("1_k2o11")
+
+[node name="farm_manager" type="Node2D" parent="." unique_id=1050254223]
+script = ExtResource("7_nakyh")
+
+[node name="farm_layer" type="TileMapLayer" parent="." unique_id=460260518]
+tile_map_data = PackedByteArray("AAD8/wMAAAAAAAQAAAADAAMAAAABAAQAAAD8//z/AAAAAAMAAAADAPz/AAABAAMAAAD9/wMAAAABAAAAAAD+/wMAAAABAAAAAAD//wMAAAABAAAAAAAAAAMAAAABAAAAAAABAAMAAAABAAAAAAACAAMAAAABAAAAAAD9//z/AAABAAIAAAD+//z/AAABAAIAAAD///z/AAABAAIAAAAAAPz/AAABAAIAAAABAPz/AAABAAIAAAACAPz/AAABAAIAAAADAP3/AAAAAAEAAAADAP7/AAAAAAEAAAADAP//AAAAAAEAAAADAAAAAAAAAAEAAAADAAEAAAAAAAEAAAADAAIAAAAAAAEAAAD8//3/AAACAAEAAAD8//7/AAACAAEAAAD8////AAACAAEAAAD8/wAAAAACAAEAAAD8/wEAAAACAAEAAAD8/wIAAAACAAEAAAD9//3/AwAAAAAAAAD9//7/AwAAAAAAAAD9////AwAAAAAAAAD9/wAAAwAAAAAAAAD9/wEAAwAAAAAAAAD9/wIAAwAAAAAAAAD+//3/AwAAAAAAAAD+//7/AQAAAAAAAAD+////AQAAAAEAAAD+/wAAAQAAAAEAAAD+/wEAAQAAAAIAAAD+/wIAAwAAAAAAAAD///3/AwAAAAAAAAD///7/AQABAAAAAAD/////AgAAAAAAAAD//wAAAgAAAAIAAAD//wEAAQABAAIAAAD//wIAAwAAAAAAAAAAAP3/AwAAAAAAAAAAAP7/AQABAAAAAAAAAP//AgACAAAAAAAAAAAAAgACAAIAAAAAAAEAAQABAAIAAAAAAAIAAwAAAAAAAAABAP3/AwAAAAAAAAABAP7/AQACAAAAAAABAP//AQACAAEAAAABAAAAAQACAAEAAAABAAEAAQACAAIAAAABAAIAAwAAAAAAAAACAP3/AwAAAAAAAAACAP7/AwAAAAAAAAACAP//AwAAAAAAAAACAAAAAwAAAAAAAAACAAEAAwAAAAAAAAACAAIAAwAAAAAAAAA=")
+tile_set = SubResource("TileSet_d1g8r")
+
+[node name="crop_layer" type="TileMapLayer" parent="." unique_id=1974100651]
+tile_set = SubResource("TileSet_wb8wt")

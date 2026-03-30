@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://bh4u1tj7jkkkc" path="res://gamefiles/textures/tiles/Path_Middle.png" id="5_uhll3"]
 [ext_resource type="Script" uid="uid://b3f5wxfelvgjx" path="res://gamefiles/scripts/managers/farm_manager.gd" id="7_nakyh"]
 [ext_resource type="Texture2D" uid="uid://cyybswdgsfwgi" path="res://gamefiles/textures/items.png" id="8_y0rdo"]
+[ext_resource type="Script" uid="uid://cfjse6yxy0rnf" path="res://gamefiles/scripts/managers/inventory_manager.gd" id="9_uhll3"]
+[ext_resource type="Script" uid="uid://dgvhnct3uepks" path="res://gamefiles/scripts/systems/fixed_inventory.gd" id="10_wb8wt"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wb8wt"]
 texture = ExtResource("1_ysfsh")
@@ -139,22 +141,41 @@ texture = ExtResource("8_y0rdo")
 [sub_resource type="TileSet" id="TileSet_wb8wt"]
 sources/0 = SubResource("TileSetAtlasSource_uhll3")
 
-[node name="world" type="Node2D" unique_id=2084201112 node_paths=PackedStringArray("farm_manager", "game_tick")]
+[node name="world" type="Node2D" unique_id=2084201112 node_paths=PackedStringArray("farm_manager", "inventory_manager", "game_tick", "windows_parent_ui")]
 script = ExtResource("1_k2o11")
 farm_manager = NodePath("farm_manager")
+inventory_manager = NodePath("inventory_manager")
 game_tick = NodePath("game_tick")
+windows_parent_ui = NodePath("windows")
 
 [node name="farm_manager" type="Node2D" parent="." unique_id=1050254223 node_paths=PackedStringArray("farm_tilemap_layer", "crop_tilemap_layer")]
 script = ExtResource("7_nakyh")
-farm_tilemap_layer = NodePath("../farm_layer")
-crop_tilemap_layer = NodePath("../crop_layer")
+farm_tilemap_layer = NodePath("../farm/farm_layer")
+crop_tilemap_layer = NodePath("../farm/crop_layer")
+chest_atlas_coords = Vector2i(3, 0)
+exit_atlas_coords = Vector2i(0, 2)
 
-[node name="farm_layer" type="TileMapLayer" parent="." unique_id=460260518]
+[node name="inventory_manager" type="Node2D" parent="." unique_id=35755162 node_paths=PackedStringArray("user_inventory")]
+script = ExtResource("9_uhll3")
+user_inventory = NodePath("../inventory/user_inventory")
+
+[node name="windows" type="Node2D" parent="." unique_id=2025393857]
+
+[node name="farm" type="Node2D" parent="." unique_id=1112376054]
+
+[node name="farm_layer" type="TileMapLayer" parent="farm" unique_id=460260518]
 tile_map_data = PackedByteArray("AAD8/wMAAAAAAAQAAAADAAMAAAABAAQAAAD8//z/AAAAAAMAAAADAPz/AAABAAMAAAD9/wMAAAABAAAAAAD+/wMAAAABAAAAAAD//wMAAAABAAAAAAAAAAMAAAABAAAAAAABAAMAAAABAAAAAAACAAMAAAABAAAAAAD9//z/AAABAAIAAAD+//z/AAABAAIAAAD///z/AAABAAIAAAAAAPz/AAABAAIAAAABAPz/AAABAAIAAAACAPz/AAABAAIAAAADAP3/AAAAAAEAAAADAP7/AAAAAAEAAAADAP//AAAAAAEAAAADAAAAAAAAAAEAAAADAAEAAAAAAAEAAAADAAIAAAAAAAEAAAD8//3/AAACAAEAAAD8//7/AAACAAEAAAD8////AAACAAEAAAD8/wAAAAACAAEAAAD8/wEAAAACAAEAAAD8/wIAAAACAAEAAAD9//3/AwAAAAAAAAD9//7/AwAAAAAAAAD9////AwAAAAAAAAD9/wAAAwAAAAAAAAD9/wEAAwAAAAAAAAD9/wIAAwAAAAAAAAD+//3/AwAAAAAAAAD+//7/AQAAAAAAAAD+////AQAAAAEAAAD+/wAAAQAAAAEAAAD+/wEAAQAAAAIAAAD+/wIAAwAAAAAAAAD///3/AwAAAAAAAAD///7/AQABAAAAAAD/////AgAAAAAAAAD//wAAAgAAAAIAAAD//wEAAQABAAIAAAD//wIAAwAAAAAAAAAAAP3/AwAAAAAAAAAAAP7/AQABAAAAAAAAAP//AgACAAAAAAAAAAAAAgACAAIAAAAAAAEAAQABAAIAAAAAAAIAAwAAAAAAAAABAP3/AwAAAAAAAAABAP7/AQACAAAAAAABAP//AQACAAEAAAABAAAAAQACAAEAAAABAAEAAQACAAIAAAABAAIAAwAAAAAAAAACAP3/AwAAAAAAAAACAP7/AwAAAAAAAAACAP//AwAAAAAAAAACAAAAAwAAAAAAAAACAAEAAwAAAAAAAAACAAIAAwAAAAAAAAA=")
 tile_set = SubResource("TileSet_d1g8r")
 
-[node name="crop_layer" type="TileMapLayer" parent="." unique_id=1974100651]
+[node name="crop_layer" type="TileMapLayer" parent="farm" unique_id=1974100651]
+tile_map_data = PackedByteArray("AAD9/wIAAAADAAAAAAACAAIAAAAAAAIAAAA=")
 tile_set = SubResource("TileSet_wb8wt")
+
+[node name="inventory" type="Node2D" parent="." unique_id=1721162842]
+
+[node name="user_inventory" type="Node" parent="inventory" unique_id=1803282588]
+script = ExtResource("10_wb8wt")
+metadata/_custom_type_script = "uid://dgvhnct3uepks"
 
 [node name="camera" type="Camera2D" parent="." unique_id=478716299]
 zoom = Vector2(3, 3)

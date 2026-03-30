@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://c8irxyc0wfeug"]
+
+[ext_resource type="Script" uid="uid://c8fhk25ng08hm" path="res://gamefiles/scripts/ui/inventory_ui.gd" id="1_1efp0"]
+
+[node name="inventory_ui" type="Control" unique_id=169504843 node_paths=PackedStringArray("user_inventory_grid_ui")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_1efp0")
+user_inventory_grid_ui = NodePath("tabs/user/scroll/user_inventory_slots")
+
+[node name="tabs" type="TabContainer" parent="." unique_id=1056986315]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+
+[node name="user" type="PanelContainer" parent="tabs" unique_id=1296884577]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="scroll" type="ScrollContainer" parent="tabs/user" unique_id=849250266]
+layout_mode = 2
+
+[node name="user_inventory_slots" type="GridContainer" parent="tabs/user/scroll" unique_id=2141213335]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 4
+
+[node name="shop" type="PanelContainer" parent="tabs" unique_id=441038701]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1

@@ -9,6 +9,8 @@ signal crop_harvested(crop : Crop, tile_position : Vector2i)
 @export var crop_tilemap_layer : TileMapLayer
 @export var farm_land_source_id : int = 2
 @export var crop_source_id : int = 0
+@export var chest_atlas_coords : Vector2i = Vector2i.ZERO
+@export var exit_atlas_coords : Vector2i = Vector2i.ZERO
 
 var placed_crops : Array[Dictionary]
 
@@ -25,12 +27,12 @@ func place_crop(tile_position : Vector2i, crop : Crop) -> void:
 		crop_planted.emit(crop, tile_position)
 
 func harvest_crop_at_tile(tile_position : Vector2i) -> void:
-	for crop in placed_crops:
-		if crop.position == tile_position:
-			placed_crops.erase(crop)
-		crop_tilemap_layer.erase_cell(tile_position)
-		
-		crop_harvested.emit(crop.resource, tile_position)
+	if is_tile_ready_for_harvest(tile_position):
+		for crop in placed_crops:
+			if crop.position == tile_position:
+				placed_crops.erase(crop)
+				crop_tilemap_layer.erase_cell(tile_position)
+				crop_harvested.emit(crop.resource, tile_position)
 	
 
 func update_crops() -> void:

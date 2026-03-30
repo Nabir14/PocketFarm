@@ -7,4 +7,5 @@ signal inventory_systems_ready
 
 func setup_inventory_systems() -> void:
 	user_inventory.resize_inventory(16)
+	
 	inventory_systems_ready.emit()

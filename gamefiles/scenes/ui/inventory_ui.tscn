@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c8fhk25ng08hm" path="res://gamefiles/scripts/ui/inventory_ui.gd" id="1_1efp0"]
 
-[node name="inventory_ui" type="Control" unique_id=169504843 node_paths=PackedStringArray("user_inventory_grid_ui")]
+[node name="inventory_ui" type="Control" unique_id=169504843 node_paths=PackedStringArray("user_inventory_grid_ui", "shop_inventory_list_ui")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,6 +11,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_1efp0")
 user_inventory_grid_ui = NodePath("tabs/user/scroll/user_inventory_slots")
+shop_inventory_list_ui = NodePath("tabs/shop/scroll/shop_inventory_entries")
 
 [node name="tabs" type="TabContainer" parent="." unique_id=1056986315]
 layout_mode = 1
@@ -32,9 +33,16 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-columns = 4
+columns = 3
 
 [node name="shop" type="PanelContainer" parent="tabs" unique_id=441038701]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 1
+
+[node name="scroll" type="ScrollContainer" parent="tabs/shop" unique_id=1575840859]
+layout_mode = 2
+
+[node name="shop_inventory_entries" type="VBoxContainer" parent="tabs/shop/scroll" unique_id=779274676]
+layout_mode = 2
+size_flags_horizontal = 3

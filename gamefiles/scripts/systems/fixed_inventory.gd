@@ -14,10 +14,18 @@ func resize_inventory(data_size : int) -> void:
 	data.resize(data_size)
 	data_ready.emit()
 
+func reset_inventory() -> void:
+	for index in range(data.size()):
+		data[index] = {}
+
 func add_item(item : Item, quantity : int = 0) -> void:
-	var index = find_empty_slot()
-	if index >= 0:
-		add_item_at_index(index, item, quantity)
+	var item_index = find_item_index(item)
+	if item_index < 0:
+		var slot_index = find_empty_slot()
+		if slot_index >= 0:
+			add_item_at_index(slot_index, item, quantity)
+	else:
+		add_item_at_index(item_index, item, quantity)
 
 func remove_item(item : Item, quantity : int = 0) -> void:
 	var index = find_item_index(item)
@@ -25,12 +33,10 @@ func remove_item(item : Item, quantity : int = 0) -> void:
 		remove_item_at_index(index, item, quantity)
 
 func add_item_at_index(index : int, item : Item, quantity : int = 0) -> void:
-	var data_entry : Dictionary = { item: quantity }
-	
-	if data[index] == data_entry:
+	if data[index].has(item):
 		data[index][item] += quantity
 	else:
-		data[index] = data_entry
+		data[index] = { item: quantity }
 	
 	data_updated.emit()
 
@@ -75,5 +81,5 @@ func get_item_quantity(target_item : Item) -> int:
 		if data[index].has(target_item):
 			return data[index][target_item]
 		else:
-			return -1
-	return -1
+			return 0
+	return 0

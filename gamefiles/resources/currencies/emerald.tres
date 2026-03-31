@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CurrencyItem" format=3 uid="uid://c6g1aqvn21fea"]
+
+[ext_resource type="Script" uid="uid://bpsh2gu4titn6" path="res://gamefiles/scripts/resources/currency_item.gd" id="1_okyg3"]
+[ext_resource type="Texture2D" uid="uid://bo43x7dwrbahy" path="res://icon.svg" id="1_x2pgd"]
+
+[resource]
+script = ExtResource("1_okyg3")
+currency_weight = 0.5
+icon = ExtResource("1_x2pgd")
+name = "Emerald"
+metadata/_custom_type_script = "uid://bpsh2gu4titn6"

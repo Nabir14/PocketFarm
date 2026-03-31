@@ -19,7 +19,7 @@ func setup_entry() -> void:
 	
 	if item:
 		icon.texture = item.icon
-		label.text = item.name+" ("+str(price)+" Coins)"
+		label.text = item.name+"\nPrice: "+str(price)
 		
 		buy_button.text = "Buy"
 		buy_button.pressed.connect(_on_buy_clicked)

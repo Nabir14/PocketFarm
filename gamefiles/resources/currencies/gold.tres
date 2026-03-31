@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CurrencyItem" format=3 uid="uid://dcnhmhsvo6dft"]
+
+[ext_resource type="Script" uid="uid://bpsh2gu4titn6" path="res://gamefiles/scripts/resources/currency_item.gd" id="1_t6fvo"]
+[ext_resource type="Texture2D" uid="uid://bo43x7dwrbahy" path="res://icon.svg" id="1_vfqrl"]
+
+[resource]
+script = ExtResource("1_t6fvo")
+icon = ExtResource("1_vfqrl")
+name = "Gold"
+metadata/_custom_type_script = "uid://bpsh2gu4titn6"

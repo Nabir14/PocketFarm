@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://c5gy41t8r22ht" path="res://gamefiles/scripts/levels/world.gd" id="1_k2o11"]
 [ext_resource type="Texture2D" uid="uid://58tvo5uhr775" path="res://gamefiles/textures/tiles/Water_Tile.png" id="1_ysfsh"]
 [ext_resource type="Texture2D" uid="uid://dsp27vc0ml7a6" path="res://gamefiles/textures/tiles/Path_Tile.png" id="2_k2o11"]
+[ext_resource type="Resource" uid="uid://dcnhmhsvo6dft" path="res://gamefiles/resources/currencies/gold.tres" id="2_p3av0"]
+[ext_resource type="Resource" uid="uid://bcbtwikx14b41" path="res://gamefiles/resources/price_lists/basic_price_list.tres" id="3_mhwil"]
 [ext_resource type="Texture2D" uid="uid://bkods1o3ni5fj" path="res://gamefiles/textures/tiles/FarmLand_Tile.png" id="3_nakyh"]
 [ext_resource type="Texture2D" uid="uid://clsv37anbft0f" path="res://gamefiles/textures/tiles/Grass_Middle.png" id="4_y0rdo"]
 [ext_resource type="Texture2D" uid="uid://bh4u1tj7jkkkc" path="res://gamefiles/textures/tiles/Path_Middle.png" id="5_uhll3"]
@@ -11,6 +13,7 @@
 [ext_resource type="Script" uid="uid://cfjse6yxy0rnf" path="res://gamefiles/scripts/managers/inventory_manager.gd" id="9_uhll3"]
 [ext_resource type="Script" uid="uid://dgvhnct3uepks" path="res://gamefiles/scripts/systems/fixed_inventory.gd" id="10_wb8wt"]
 [ext_resource type="Script" uid="uid://cod037ps24p72" path="res://gamefiles/scripts/systems/dynamic_inventory.gd" id="11_jglce"]
+[ext_resource type="Script" uid="uid://de04pvj4fle7y" path="res://gamefiles/scripts/systems/economy_system.gd" id="12_8v8f1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wb8wt"]
 texture = ExtResource("1_ysfsh")
@@ -142,12 +145,16 @@ texture = ExtResource("8_y0rdo")
 [sub_resource type="TileSet" id="TileSet_wb8wt"]
 sources/0 = SubResource("TileSetAtlasSource_uhll3")
 
-[node name="world" type="Node2D" unique_id=2084201112 node_paths=PackedStringArray("farm_manager", "inventory_manager", "game_tick", "windows_parent_ui")]
+[node name="world" type="Node2D" unique_id=2084201112 node_paths=PackedStringArray("farm_manager", "inventory_manager", "game_tick", "economy_system", "windows_parent_ui", "windows_child_temp_parent")]
 script = ExtResource("1_k2o11")
 farm_manager = NodePath("farm_manager")
 inventory_manager = NodePath("inventory_manager")
 game_tick = NodePath("game_tick")
+economy_system = NodePath("economy_system")
 windows_parent_ui = NodePath("windows")
+windows_child_temp_parent = NodePath("temp_parent")
+main_currency = ExtResource("2_p3av0")
+price_list = ExtResource("3_mhwil")
 
 [node name="farm_manager" type="Node2D" parent="." unique_id=1050254223 node_paths=PackedStringArray("farm_tilemap_layer", "crop_tilemap_layer")]
 script = ExtResource("7_nakyh")
@@ -183,8 +190,38 @@ metadata/_custom_type_script = "uid://dgvhnct3uepks"
 script = ExtResource("11_jglce")
 metadata/_custom_type_script = "uid://cod037ps24p72"
 
+[node name="temp_parent" type="Node2D" parent="." unique_id=605491896]
+visible = false
+
 [node name="camera" type="Camera2D" parent="." unique_id=478716299]
 zoom = Vector2(3, 3)
 
 [node name="game_tick" type="Timer" parent="." unique_id=2141762359]
 autostart = true
+
+[node name="economy_system" type="Node" parent="." unique_id=832363152]
+script = ExtResource("12_8v8f1")
+
+[node name="debug_ui" type="Control" parent="." unique_id=346290578]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="gold" type="Label" parent="debug_ui" unique_id=847095764]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.5
+offset_top = -88.0
+offset_right = 33.5
+offset_bottom = -65.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Golds: -1"

@@ -14,6 +14,7 @@
 [ext_resource type="Script" uid="uid://dgvhnct3uepks" path="res://gamefiles/scripts/systems/fixed_inventory.gd" id="10_wb8wt"]
 [ext_resource type="Script" uid="uid://cod037ps24p72" path="res://gamefiles/scripts/systems/dynamic_inventory.gd" id="11_jglce"]
 [ext_resource type="Script" uid="uid://de04pvj4fle7y" path="res://gamefiles/scripts/systems/economy_system.gd" id="12_8v8f1"]
+[ext_resource type="Script" uid="uid://cx2lask71vota" path="res://gamefiles/scripts/managers/upgrades_manager.gd" id="15_d1g8r"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wb8wt"]
 texture = ExtResource("1_ysfsh")
@@ -145,10 +146,11 @@ texture = ExtResource("8_y0rdo")
 [sub_resource type="TileSet" id="TileSet_wb8wt"]
 sources/0 = SubResource("TileSetAtlasSource_uhll3")
 
-[node name="world" type="Node2D" unique_id=2084201112 node_paths=PackedStringArray("farm_manager", "inventory_manager", "game_tick", "economy_system", "windows_parent_ui", "windows_child_temp_parent")]
+[node name="world" type="Node2D" unique_id=2084201112 node_paths=PackedStringArray("farm_manager", "inventory_manager", "upgrades_manager", "game_tick", "economy_system", "windows_parent_ui", "windows_child_temp_parent")]
 script = ExtResource("1_k2o11")
 farm_manager = NodePath("farm_manager")
 inventory_manager = NodePath("inventory_manager")
+upgrades_manager = NodePath("upgrades_manager")
 game_tick = NodePath("game_tick")
 economy_system = NodePath("economy_system")
 windows_parent_ui = NodePath("windows")
@@ -201,6 +203,10 @@ autostart = true
 
 [node name="economy_system" type="Node" parent="." unique_id=832363152]
 script = ExtResource("12_8v8f1")
+
+[node name="upgrades_manager" type="Node" parent="." unique_id=286692799]
+script = ExtResource("15_d1g8r")
+metadata/_custom_type_script = "uid://cx2lask71vota"
 
 [node name="debug_ui" type="Control" parent="." unique_id=346290578]
 layout_mode = 3

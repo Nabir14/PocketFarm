@@ -3,6 +3,7 @@ class_name World
 
 @export var farm_manager : FarmManager
 @export var inventory_manager : InventoryManager
+@export var upgrades_manager : UpgradesManager
 @export var game_tick : Timer
 @export var economy_system : EconomySystem
 
@@ -58,10 +59,13 @@ func _process(_delta: float) -> void:
 		if not inventory_manager.user_inventory.get_item_quantity(selected_item) > 0:
 			selected_item = null
 			return
-		if not farm_manager.is_tile_empty(tile_position): return
 		
 		if selected_item is SeedItem:
-			farm_manager.plant_crop(tile_position, selected_item.crop)
+			if farm_manager.is_tile_empty(tile_position):
+				farm_manager.plant_crop(tile_position, selected_item.crop)
+		elif selected_item is UpgradeItem:
+			upgrades_manager.apply_upgrade(selected_item.upgrade)
+		
 	elif Input.is_action_pressed("mouse_action_s"):
 		farm_manager.harvest_crop(tile_position)
 	
@@ -90,6 +94,12 @@ func append_new_window(callback : Callable, window_child : Control = null):
 	windows_parent_ui.add_child(window)
 
 func _on_game_tick() -> void:
+	for upgrade in upgrades_manager.upgrades:
+		match upgrade.type:
+			Upgrade.UpgradeTypes.GROWTH_BOOST:
+				for i in range(round(upgrade.upgrade_weight)):
+					farm_manager.update_crops()
+	
 	farm_manager.update_crops()
 
 func _on_inventory_system_ready() -> void:

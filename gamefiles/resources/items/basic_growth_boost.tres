@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="UpgradeItem" format=3 uid="uid://c8u582pfucfhu"]
+
+[ext_resource type="Script" uid="uid://cyoy3xlgkmbyy" path="res://gamefiles/scripts/resources/upgrade_item.gd" id="1_5nufd"]
+[ext_resource type="Texture2D" uid="uid://bo43x7dwrbahy" path="res://icon.svg" id="1_hbc4n"]
+[ext_resource type="Resource" uid="uid://b4cwd5ohk6lxg" path="res://gamefiles/resources/upgrades/basic_growth_boost_upgrade.tres" id="3_30dak"]
+
+[resource]
+script = ExtResource("1_5nufd")
+upgrade = ExtResource("3_30dak")
+icon = ExtResource("1_hbc4n")
+name = "Basic Growth Boost"
+metadata/_custom_type_script = "uid://cyoy3xlgkmbyy"

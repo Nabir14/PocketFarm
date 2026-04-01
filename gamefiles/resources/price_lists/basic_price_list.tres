@@ -4,13 +4,14 @@
 [ext_resource type="Script" uid="uid://wyjhn068swyw" path="res://gamefiles/scripts/resources/item.gd" id="2_tanov"]
 [ext_resource type="Resource" uid="uid://giqvskfsaj1a" path="res://gamefiles/resources/crops/carrot.tres" id="2_yiwr4"]
 [ext_resource type="Script" uid="uid://cc05dxqfwcnr6" path="res://gamefiles/scripts/resources/price_list.gd" id="3_yiwr4"]
-[ext_resource type="Script" uid="uid://b5nli6xip6l3h" path="res://gamefiles/scripts/resources/seed_item.gd" id="5_0x623"]
-[ext_resource type="Resource" uid="uid://ci4enfe6skdiq" path="res://gamefiles/resources/seeds/carrot_seeds.tres" id="6_y0bws"]
+[ext_resource type="Resource" uid="uid://c8u582pfucfhu" path="res://gamefiles/resources/items/basic_growth_boost.tres" id="5_0x623"]
+[ext_resource type="Resource" uid="uid://ci4enfe6skdiq" path="res://gamefiles/resources/items/carrot_seeds.tres" id="6_y0bws"]
 
 [resource]
 script = ExtResource("3_yiwr4")
 items = Dictionary[ExtResource("2_tanov"), int]({
-ExtResource("6_y0bws"): 20
+ExtResource("6_y0bws"): 20,
+ExtResource("5_0x623"): 50
 })
 crops = Dictionary[ExtResource("1_elxe7"), int]({
 ExtResource("2_yiwr4"): 30

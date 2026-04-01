@@ -18,21 +18,23 @@ func reset_inventory() -> void:
 	for index in range(data.size()):
 		data[index] = {}
 
-func add_item(item : Item, quantity : int = 0) -> void:
+func add_item(item : Item, quantity : int = 1) -> void:
 	var item_index = find_item_index(item)
+	
 	if item_index < 0:
 		var slot_index = find_empty_slot()
+		
 		if slot_index >= 0:
 			add_item_at_index(slot_index, item, quantity)
 	else:
 		add_item_at_index(item_index, item, quantity)
 
-func remove_item(item : Item, quantity : int = 0) -> void:
+func remove_item(item : Item, quantity : int = 1) -> void:
 	var index = find_item_index(item)
 	if index >= 0:
 		remove_item_at_index(index, item, quantity)
 
-func add_item_at_index(index : int, item : Item, quantity : int = 0) -> void:
+func add_item_at_index(index : int, item : Item, quantity : int = 1) -> void:
 	if data[index].has(item):
 		data[index][item] += quantity
 	else:
@@ -40,7 +42,7 @@ func add_item_at_index(index : int, item : Item, quantity : int = 0) -> void:
 	
 	data_updated.emit()
 
-func remove_item_at_index(index : int, item : Item, quantity : int = 0) -> void:
+func remove_item_at_index(index : int, item : Item, quantity : int = 1) -> void:
 	for i in range(quantity):
 		if data[index][item] > 0:
 			data[index][item] -= 1
@@ -49,7 +51,7 @@ func remove_item_at_index(index : int, item : Item, quantity : int = 0) -> void:
 		
 	data_updated.emit()
 
-func has_item(item : Item, quantity : int = 0) -> bool:
+func has_item(item : Item, quantity : int = 1) -> bool:
 	for index in range(data.size()):
 		if data[index].has(item):
 			if data[index][item] >= quantity:

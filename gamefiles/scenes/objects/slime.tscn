@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://dg5mh3mq03dkn"]
+
+[ext_resource type="Texture2D" uid="uid://r4wpunfrcwe3" path="res://gamefiles/textures/enimes/slime_spritesheet.png" id="1_q1gft"]
+[ext_resource type="Script" uid="uid://dtw75way1382h" path="res://gamefiles/scripts/systems/topdown_npc_2d.gd" id="1_v8c58"]
+[ext_resource type="Script" uid="uid://b4ahj57l75jxt" path="res://gamefiles/scripts/managers/monster_manager.gd" id="3_xmcxv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xmcxv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xmcxv"]
+atlas = ExtResource("1_q1gft")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sakrb"]
+atlas = ExtResource("1_q1gft")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3s6xl"]
+atlas = ExtResource("1_q1gft")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqblk"]
+atlas = ExtResource("1_q1gft")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0vvtg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xmcxv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sakrb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3s6xl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqblk")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[node name="slime" type="CharacterBody2D" unique_id=625824312]
+script = ExtResource("1_v8c58")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1150596533]
+shape = SubResource("CircleShape2D_xmcxv")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1459671804]
+sprite_frames = SubResource("SpriteFrames_0vvtg")
+animation = &"walk"
+
+[node name="monster_manager" type="Node" parent="." unique_id=1998982490 node_paths=PackedStringArray("monster", "animated_sprite", "wander_timer")]
+script = ExtResource("3_xmcxv")
+monster = NodePath("..")
+animated_sprite = NodePath("../AnimatedSprite2D")
+wander_timer = NodePath("../Timer")
+
+[node name="Timer" type="Timer" parent="." unique_id=1212712995]
+wait_time = 3.0
+autostart = true

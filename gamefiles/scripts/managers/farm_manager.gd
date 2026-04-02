@@ -14,26 +14,32 @@ signal crop_harvested(crop : Crop, tile_position : Vector2i)
 
 var planted_crops : Array[Dictionary]
 
+func add_crop(tile_position : Vector2i, crop : Crop) -> void:
+	planted_crops.append({
+		"resource": crop,
+		"position": tile_position,
+		"current_age": 0
+	})
+		
+	crop_tilemap_layer.set_cell(tile_position, crop_source_id, crop.age_sprites[0])
+
+func remove_crop(tile_position : Vector2i) -> void:
+	for crop in planted_crops:
+		if crop.position == tile_position:
+			planted_crops.erase(crop)
+			crop_tilemap_layer.erase_cell(tile_position)
+
 func plant_crop(tile_position : Vector2i, crop : Crop) -> void:
 	if is_tile_farm_land(tile_position) and is_tile_empty(tile_position):
-		planted_crops.append({
-			"resource": crop,
-			"position": tile_position,
-			"current_age": 0
-		})
-		
-		crop_tilemap_layer.set_cell(tile_position, crop_source_id, crop.age_sprites[0])
-		
+		add_crop(tile_position, crop)
 		crop_planted.emit(crop, tile_position)
 
 func harvest_crop(tile_position : Vector2i) -> void:
 	if is_tile_ready_for_harvest(tile_position):
 		for crop in planted_crops:
 			if crop.position == tile_position:
-				planted_crops.erase(crop)
-				crop_tilemap_layer.erase_cell(tile_position)
+				remove_crop(tile_position)
 				crop_harvested.emit(crop.resource, tile_position)
-	
 
 func update_crops() -> void:
 	for crop in planted_crops:

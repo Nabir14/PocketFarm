@@ -15,6 +15,7 @@
 [ext_resource type="Script" uid="uid://cod037ps24p72" path="res://gamefiles/scripts/systems/dynamic_inventory.gd" id="11_jglce"]
 [ext_resource type="Script" uid="uid://de04pvj4fle7y" path="res://gamefiles/scripts/systems/economy_system.gd" id="12_8v8f1"]
 [ext_resource type="Script" uid="uid://cx2lask71vota" path="res://gamefiles/scripts/managers/upgrades_manager.gd" id="15_d1g8r"]
+[ext_resource type="PackedScene" uid="uid://dg5mh3mq03dkn" path="res://gamefiles/scenes/objects/slime.tscn" id="16_278ho"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wb8wt"]
 texture = ExtResource("1_ysfsh")
@@ -231,3 +232,6 @@ offset_bottom = -65.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "Golds: -1"
+
+[node name="slime" parent="." unique_id=625824312 instance=ExtResource("16_278ho")]
+position = Vector2(40, -40)

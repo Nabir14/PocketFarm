@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://b5nli6xip6l3h" path="res://gamefiles/scripts/resources/seed_item.gd" id="1_7fbbl"]
 [ext_resource type="Resource" uid="uid://giqvskfsaj1a" path="res://gamefiles/resources/crops/carrot.tres" id="1_tyqer"]
-[ext_resource type="Texture2D" uid="uid://bo43x7dwrbahy" path="res://icon.svg" id="2_oqsm4"]
+[ext_resource type="Texture2D" uid="uid://cmucx5xa3s4r5" path="res://gamefiles/textures/seeds/carrot_seeds.png" id="2_y7wmv"]
 
 [resource]
 script = ExtResource("1_7fbbl")
 crop = ExtResource("1_tyqer")
-icon = ExtResource("2_oqsm4")
+icon = ExtResource("2_y7wmv")
 name = "Carrot Seeds"
 metadata/_custom_type_script = "uid://b5nli6xip6l3h"

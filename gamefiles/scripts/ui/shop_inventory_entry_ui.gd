@@ -14,12 +14,26 @@ func setup_entry() -> void:
 	var label : Label = Label.new()
 	var buy_button : Button = Button.new()
 	
-	buy_button.alignment = HORIZONTAL_ALIGNMENT_RIGHT
+	icon.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	icon.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	label.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	label.size_flags_stretch_ratio = 6.
+	
+	buy_button.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	buy_button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	buy_button.alignment = HORIZONTAL_ALIGNMENT_RIGHT
 	
 	if item:
 		icon.texture = item.icon
 		label.text = item.name+"\nPrice: "+str(price)
+		
+		if item is SeedItem:
+			label.text += "\nMax Age: "+str(item.crop.max_age)
+		elif item is UpgradeItem:
+			label.text += "\nDuration: "+str(item.upgrade.upgrade_cooldown_s)+"s"
 		
 		buy_button.text = "Buy"
 		buy_button.pressed.connect(_on_buy_clicked)

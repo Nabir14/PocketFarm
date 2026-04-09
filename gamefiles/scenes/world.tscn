@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://de04pvj4fle7y" path="res://gamefiles/scripts/systems/economy_system.gd" id="12_8v8f1"]
 [ext_resource type="Script" uid="uid://cx2lask71vota" path="res://gamefiles/scripts/managers/upgrades_manager.gd" id="15_d1g8r"]
 [ext_resource type="PackedScene" uid="uid://dg5mh3mq03dkn" path="res://gamefiles/scenes/objects/slime.tscn" id="16_278ho"]
+[ext_resource type="Script" uid="uid://jegnmqt72p7i" path="res://gamefiles/scripts/systems/priority_spawner.gd" id="17_by343"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wb8wt"]
 texture = ExtResource("1_ysfsh")
@@ -147,7 +148,7 @@ texture = ExtResource("8_y0rdo")
 [sub_resource type="TileSet" id="TileSet_wb8wt"]
 sources/0 = SubResource("TileSetAtlasSource_uhll3")
 
-[node name="world" type="Node2D" unique_id=2084201112 node_paths=PackedStringArray("farm_manager", "inventory_manager", "upgrades_manager", "game_tick", "economy_system", "windows_parent_ui", "windows_child_temp_parent")]
+[node name="world" type="Node2D" unique_id=2084201112 node_paths=PackedStringArray("farm_manager", "inventory_manager", "upgrades_manager", "game_tick", "economy_system", "windows_parent_ui", "windows_child_temp_parent", "random_spawner")]
 script = ExtResource("1_k2o11")
 farm_manager = NodePath("farm_manager")
 inventory_manager = NodePath("inventory_manager")
@@ -158,6 +159,11 @@ windows_parent_ui = NodePath("windows")
 windows_child_temp_parent = NodePath("temp_parent")
 main_currency = ExtResource("2_p3av0")
 price_list = ExtResource("3_mhwil")
+random_spawner = NodePath("random_spawner")
+entity_scenes = Dictionary[PackedScene, float]({
+ExtResource("16_278ho"): 1.0
+})
+spawner_cooldown = 10
 
 [node name="farm_manager" type="Node2D" parent="." unique_id=1050254223 node_paths=PackedStringArray("farm_tilemap_layer", "crop_tilemap_layer")]
 script = ExtResource("7_nakyh")
@@ -193,14 +199,14 @@ metadata/_custom_type_script = "uid://dgvhnct3uepks"
 script = ExtResource("11_jglce")
 metadata/_custom_type_script = "uid://cod037ps24p72"
 
+[node name="random_spawner" type="Node2D" parent="." unique_id=6995168]
+script = ExtResource("17_by343")
+
 [node name="temp_parent" type="Node2D" parent="." unique_id=605491896]
 visible = false
 
 [node name="camera" type="Camera2D" parent="." unique_id=478716299]
 zoom = Vector2(3, 3)
-
-[node name="game_tick" type="Timer" parent="." unique_id=2141762359]
-autostart = true
 
 [node name="economy_system" type="Node" parent="." unique_id=832363152]
 script = ExtResource("12_8v8f1")
@@ -233,5 +239,5 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Golds: -1"
 
-[node name="slime" parent="." unique_id=625824312 instance=ExtResource("16_278ho")]
-position = Vector2(40, -40)
+[node name="game_tick" type="Timer" parent="." unique_id=2141762359]
+autostart = true

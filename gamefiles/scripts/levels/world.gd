@@ -7,6 +7,9 @@ class_name World
 @export var game_tick : Timer
 @export var economy_system : EconomySystem
 
+@export_group("World Settings")
+@export var map_limit : Vector2 = Vector2(0., 0.)
+
 @export_group("UI Elements Management")
 @export var windows_parent_ui : Node2D
 @export var windows_child_temp_parent : Node2D
@@ -14,6 +17,12 @@ class_name World
 @export_group("Economy Management")
 @export var main_currency : CurrencyItem
 @export var price_list : PriceList
+
+@export_group("Entity Management")
+@export var random_spawner : RandomSpawner2D
+@export var entity_scenes : Dictionary[PackedScene, float]
+@export var spawner_cooldown : int = 1
+@export var spawner_current_time : int = 0
 
 var selected_item : Item = null
 var inventory_ui : InventoryUI = null
@@ -33,10 +42,10 @@ func _input(event: InputEvent) -> void:
 		var mouse_position : Vector2 = get_global_mouse_position()
 		var tile_position : Vector2i = farm_manager.to_farm_position(mouse_position)
 		
-		if ($slime.global_position - mouse_position).length() < 10.:
-			$slime.hide()
-			$slime.disabled = true
-			economy_system.add_currency(main_currency, 5)
+		for object in random_spawner.spawned_objects:
+			if (object.global_position - mouse_position).length() < 10.:
+				random_spawner.remove_object(object)
+				economy_system.add_currency(main_currency, 5)
 		
 		if farm_manager.crop_tilemap_layer.get_cell_atlas_coords(tile_position) == farm_manager.exit_atlas_coords:
 			get_tree().quit()
@@ -77,11 +86,13 @@ func _process(_delta: float) -> void:
 	$debug_ui/gold.text = str(main_currency.name)+"s: "+str(economy_system.current_balance[main_currency])
 
 func _physics_process(_delta: float) -> void:
-	if not $slime.disabled:
-		var enemy_pos = farm_manager.crop_tilemap_layer.local_to_map($slime.global_position)
-	
-		if not farm_manager.is_tile_empty(enemy_pos):
-			farm_manager.remove_crop(enemy_pos)
+	for object in random_spawner.spawned_objects:
+		if object is TopdownNpc2D:
+			if not object.disabled:
+				var enemy_pos = farm_manager.crop_tilemap_layer.local_to_map(object.global_position)
+				
+				if not farm_manager.is_tile_empty(enemy_pos):
+					farm_manager.remove_crop(enemy_pos)
 
 func process_default() -> void:
 	inventory_manager.setup_inventory_systems()
@@ -106,6 +117,9 @@ func append_new_window(callback : Callable, window_child : Control = null):
 	windows_parent_ui.add_child(window)
 
 func _on_game_tick() -> void:
+	spawner_current_time += 1
+	check_spawn_time()
+	
 	for upgrade in upgrades_manager.upgrades:
 		match upgrade.type:
 			Upgrade.UpgradeTypes.GROWTH_BOOST:
@@ -113,6 +127,11 @@ func _on_game_tick() -> void:
 					farm_manager.update_crops()
 	
 	farm_manager.update_crops()
+
+func check_spawn_time() -> void:
+	if spawner_current_time >= spawner_cooldown:
+		random_spawner.randomly_spawn_object(entity_scenes, map_limit)
+		spawner_current_time = 0
 
 func _on_inventory_system_ready() -> void:
 	pass
@@ -147,7 +166,6 @@ func _on_item_bought(item : Item) -> void:
 	if economy_system.has_currency(main_currency, item_price):
 		economy_system.remove_currency(main_currency, item_price)
 		inventory_manager.user_inventory.add_item(item, 1)
-	
 
 func _on_inventory_closed() -> void:
 	is_inventory_open = false

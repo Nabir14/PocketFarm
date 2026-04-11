@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://c05pbdx0vtbc8"]
+
+[ext_resource type="Script" uid="uid://dhapovvw2hrwg" path="res://gamefiles/scripts/managers/game_manager.gd" id="1_1jegp"]
+[ext_resource type="PackedScene" uid="uid://b8v4ay5bhr7e" path="res://gamefiles/scenes/world.tscn" id="2_ug6l0"]
+[ext_resource type="Script" uid="uid://cegm3txjwt78c" path="res://gamefiles/scripts/managers/windows_manager.gd" id="2_xog1t"]
+
+[node name="game_manager" type="Node2D" unique_id=540335693 node_paths=PackedStringArray("world", "windows_manager")]
+script = ExtResource("1_1jegp")
+world = NodePath("world")
+windows_manager = NodePath("windows_management/windows_manager")
+
+[node name="world" parent="." unique_id=2084201112 instance=ExtResource("2_ug6l0")]
+spawner_cooldown_s = 30
+
+[node name="windows_management" type="Node" parent="." unique_id=1295425815]
+
+[node name="windows_manager" type="Node" parent="windows_management" unique_id=1701311724 node_paths=PackedStringArray("windows_child_parent", "windows_child_temp_parent")]
+script = ExtResource("2_xog1t")
+windows_child_parent = NodePath("../windows_child_parent")
+windows_child_temp_parent = NodePath("../windows_child_temp_parent")
+
+[node name="windows_child_parent" type="Node" parent="windows_management" unique_id=1552451809]
+
+[node name="windows_child_temp_parent" type="Node2D" parent="windows_management" unique_id=1978284977]
+visible = false
+
+[node name="camera" type="Camera2D" parent="." unique_id=530686165]
+zoom = Vector2(3, 3)
+
+[node name="debug_ui" type="Control" parent="." unique_id=909875270]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="gold" type="Label" parent="debug_ui" unique_id=1381299806]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -33.5
+offset_top = -88.0
+offset_right = 33.5
+offset_bottom = -65.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Golds: -1"

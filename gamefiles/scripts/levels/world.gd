@@ -1,18 +1,15 @@
 extends Node2D
 class_name World
 
+@export_group("World Management")
+@export var map_limit : Vector2 = Vector2(0., 0.)
+@export var game_tick : Timer
+
+@export_group("Managers And Systems")
 @export var farm_manager : FarmManager
 @export var inventory_manager : InventoryManager
 @export var upgrades_manager : UpgradesManager
-@export var game_tick : Timer
 @export var economy_system : EconomySystem
-
-@export_group("World Settings")
-@export var map_limit : Vector2 = Vector2(0., 0.)
-
-@export_group("UI Elements Management")
-@export var windows_parent_ui : Node2D
-@export var windows_child_temp_parent : Node2D
 
 @export_group("Economy Management")
 @export var main_currency : CurrencyItem
@@ -21,71 +18,51 @@ class_name World
 @export_group("Entity Management")
 @export var random_spawner : RandomSpawner2D
 @export var entity_scenes : Dictionary[PackedScene, float]
-@export var spawner_cooldown : int = 1
-@export var spawner_current_time : int = 0
 
-var selected_item : Item = null
-var inventory_ui : InventoryUI = null
+@export_group("Time Management")
+@export var spawner_cooldown_s : int = 1
 
-var is_inventory_open : bool = false
+func process_default() -> void:
+	inventory_manager.setup_inventory_systems()
+	inventory_manager.add_items_in_shop_from_list(price_list, main_currency)
+	economy_system.add_currency(main_currency, round(100 * main_currency.currency_weight))
 
-func _ready() -> void:
-	farm_manager.crop_planted.connect(_on_crop_planted)
-	farm_manager.crop_harvested.connect(_on_crop_harvested)
-	game_tick.timeout.connect(_on_game_tick)
-	inventory_manager.inventory_systems_ready.connect(_on_inventory_system_ready)
-	
-	process_default()
-
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("mouse_action"):
-		var mouse_position : Vector2 = get_global_mouse_position()
-		var tile_position : Vector2i = farm_manager.to_farm_position(mouse_position)
-		
-		for object in random_spawner.spawned_objects:
-			if (object.global_position - mouse_position).length() < 10.:
-				random_spawner.remove_object(object)
-				economy_system.add_currency(main_currency, 5)
-		
-		if farm_manager.crop_tilemap_layer.get_cell_atlas_coords(tile_position) == farm_manager.exit_atlas_coords:
-			get_tree().quit()
-		elif farm_manager.crop_tilemap_layer.get_cell_atlas_coords(tile_position) == farm_manager.chest_atlas_coords:
-			if not is_inventory_open:
-				is_inventory_open = true
-				
-				if not inventory_ui:
-					inventory_ui = load("res://gamefiles/scenes/ui/inventory_ui.tscn").instantiate()
-					inventory_ui.setup_user_inventory(inventory_manager.user_inventory, _on_user_inventory_slot_selected)
-					inventory_ui.update_user_inventory_ui(inventory_manager.user_inventory)
-					inventory_ui.setup_shop_inventory_ui(inventory_manager.shop_inventory, _on_item_bought)
-					inventory_manager.user_inventory.data_updated.connect(_on_user_inventory_updated)
-					inventory_manager.shop_inventory.data_updated.connect(_on_shop_inventory_updated)
-					append_new_window(_on_inventory_closed, inventory_ui)
-				else:
-					append_new_window(_on_inventory_closed)
-
-func _process(_delta: float) -> void:
+func process_action_once(game_manager : GameManager) -> void:
 	var mouse_position : Vector2 = get_global_mouse_position()
 	var tile_position : Vector2i = farm_manager.to_farm_position(mouse_position)
 	
-	if Input.is_action_pressed("mouse_action"):
-		if not selected_item: return
-		if not inventory_manager.user_inventory.get_item_quantity(selected_item) > 0:
-			selected_item = null
-			return
-		
-		if selected_item is SeedItem:
-			if farm_manager.is_tile_empty(tile_position):
-				farm_manager.plant_crop(tile_position, selected_item.crop)
-		elif selected_item is UpgradeItem:
-			upgrades_manager.apply_upgrade(selected_item.upgrade)
-		
-	elif Input.is_action_pressed("mouse_action_s"):
-		farm_manager.harvest_crop(tile_position)
+	for object in random_spawner.spawned_objects:
+		if (object.global_position - mouse_position).length() < 10.:
+			random_spawner.remove_object(object)
+			economy_system.add_currency(main_currency, 5)
 	
-	$debug_ui/gold.text = str(main_currency.name)+"s: "+str(economy_system.current_balance[main_currency])
+	if farm_manager.crop_tilemap_layer.get_cell_atlas_coords(tile_position) == farm_manager.exit_atlas_coords:
+		get_tree().quit()
+	elif farm_manager.crop_tilemap_layer.get_cell_atlas_coords(tile_position) == farm_manager.chest_atlas_coords:
+		game_manager.open_inventory()
 
-func _physics_process(_delta: float) -> void:
+func process_action(game_manager : GameManager) -> void:
+	if not game_manager.selected_item: return
+	if not inventory_manager.user_inventory.get_item_quantity(game_manager.selected_item) > 0:
+		game_manager.selected_item = null
+		return
+	
+	var mouse_position : Vector2 = get_global_mouse_position()
+	var tile_position : Vector2i = farm_manager.to_farm_position(mouse_position)
+	
+	if game_manager.selected_item is SeedItem:
+		if farm_manager.is_tile_empty(tile_position):
+			farm_manager.plant_crop(tile_position, game_manager.selected_item.crop)
+	elif game_manager.selected_item is UpgradeItem:
+		upgrades_manager.apply_upgrade(game_manager.selected_item.upgrade)
+
+func process_sub_action() -> void:
+	var mouse_position : Vector2 = get_global_mouse_position()
+	var tile_position : Vector2i = farm_manager.to_farm_position(mouse_position)
+	
+	farm_manager.harvest_crop(tile_position)
+
+func process_entities() -> void:
 	for object in random_spawner.spawned_objects:
 		if object is TopdownNpc2D:
 			if not object.disabled:
@@ -94,78 +71,17 @@ func _physics_process(_delta: float) -> void:
 				if not farm_manager.is_tile_empty(enemy_pos):
 					farm_manager.remove_crop(enemy_pos)
 
-func process_default() -> void:
-	inventory_manager.setup_inventory_systems()
-	inventory_manager.add_items_in_shop_from_list(price_list, main_currency)
-	economy_system.add_currency(main_currency, round(100 * main_currency.currency_weight))
+func check_spawn_time(game_manager : GameManager) -> void:
+	if game_manager.spawner_current_time >= spawner_cooldown_s:
+		random_spawner.randomly_spawn_object(entity_scenes, map_limit)
+		game_manager.spawner_current_time = 0
 
-func append_new_window(callback : Callable, window_child : Control = null):
-	var window = Window.new()
-	window.always_on_top = true
-	window.initial_position = Window.WINDOW_INITIAL_POSITION_CENTER_PRIMARY_SCREEN
-	window.unresizable = true
-	window.size = Vector2i(640, 480)
-	window.close_requested.connect(_on_window_close_requested.bind(window, callback))
-	
-	var children = windows_child_temp_parent.get_children()
-	for child in children:
-		child.reparent(window)
-	
-	if window_child:
-		window.add_child(window_child)
-	
-	windows_parent_ui.add_child(window)
-
-func _on_game_tick() -> void:
-	spawner_current_time += 1
-	check_spawn_time()
-	
+func apply_upgrades() -> void:
 	for upgrade in upgrades_manager.upgrades:
 		match upgrade.type:
 			Upgrade.UpgradeTypes.GROWTH_BOOST:
 				for i in range(round(upgrade.upgrade_weight)):
-					farm_manager.update_crops()
-	
+					update_farm()
+
+func update_farm() -> void:
 	farm_manager.update_crops()
-
-func check_spawn_time() -> void:
-	if spawner_current_time >= spawner_cooldown:
-		random_spawner.randomly_spawn_object(entity_scenes, map_limit)
-		spawner_current_time = 0
-
-func _on_inventory_system_ready() -> void:
-	pass
-
-func _on_crop_planted(_crop : Crop, _tile_position : Vector2i) -> void:
-	inventory_manager.user_inventory.remove_item(selected_item, 1)
-
-func _on_crop_harvested(crop : Crop, _tile_position : Vector2i) -> void:
-	var crop_price : int = price_list.crops[crop]
-	economy_system.add_currency(main_currency, crop_price)
-
-func _on_window_close_requested(window : Window, callback : Callable) -> void:
-	var children = window.get_children()
-	for child in children:
-		child.reparent(windows_child_temp_parent)
-	
-	window.queue_free()
-	callback.call()
-
-func _on_user_inventory_slot_selected(slot_data : Dictionary) -> void:
-	selected_item = slot_data.item
-
-func _on_user_inventory_updated() -> void:
-	inventory_ui.update_user_inventory_ui(inventory_manager.user_inventory)
-
-func _on_shop_inventory_updated() -> void:
-	inventory_ui.setup_shop_inventory_ui(inventory_manager.shop_inventory, _on_item_bought)
-
-func _on_item_bought(item : Item) -> void:
-	var item_price : int = price_list.items[item]
-	
-	if economy_system.has_currency(main_currency, item_price):
-		economy_system.remove_currency(main_currency, item_price)
-		inventory_manager.user_inventory.add_item(item, 1)
-
-func _on_inventory_closed() -> void:
-	is_inventory_open = false

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="PocketFarm"
-run/main_scene="uid://b8v4ay5bhr7e"
+run/main_scene="uid://c05pbdx0vtbc8"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
 

@@ -148,22 +148,19 @@ texture = ExtResource("8_y0rdo")
 [sub_resource type="TileSet" id="TileSet_wb8wt"]
 sources/0 = SubResource("TileSetAtlasSource_uhll3")
 
-[node name="world" type="Node2D" unique_id=2084201112 node_paths=PackedStringArray("farm_manager", "inventory_manager", "upgrades_manager", "game_tick", "economy_system", "windows_parent_ui", "windows_child_temp_parent", "random_spawner")]
+[node name="world" type="Node2D" unique_id=2084201112 node_paths=PackedStringArray("game_tick", "farm_manager", "inventory_manager", "upgrades_manager", "economy_system", "random_spawner")]
 script = ExtResource("1_k2o11")
+game_tick = NodePath("game_tick")
 farm_manager = NodePath("farm_manager")
 inventory_manager = NodePath("inventory_manager")
 upgrades_manager = NodePath("upgrades_manager")
-game_tick = NodePath("game_tick")
 economy_system = NodePath("economy_system")
-windows_parent_ui = NodePath("windows")
-windows_child_temp_parent = NodePath("temp_parent")
 main_currency = ExtResource("2_p3av0")
 price_list = ExtResource("3_mhwil")
 random_spawner = NodePath("random_spawner")
 entity_scenes = Dictionary[PackedScene, float]({
 ExtResource("16_278ho"): 1.0
 })
-spawner_cooldown = 10
 
 [node name="farm_manager" type="Node2D" parent="." unique_id=1050254223 node_paths=PackedStringArray("farm_tilemap_layer", "crop_tilemap_layer")]
 script = ExtResource("7_nakyh")
@@ -176,8 +173,6 @@ exit_atlas_coords = Vector2i(0, 2)
 script = ExtResource("9_uhll3")
 user_inventory = NodePath("../inventory/user_inventory")
 shop_inventory = NodePath("../inventory/shop_inventory")
-
-[node name="windows" type="Node2D" parent="." unique_id=2025393857]
 
 [node name="farm" type="Node2D" parent="." unique_id=1112376054]
 
@@ -202,42 +197,12 @@ metadata/_custom_type_script = "uid://cod037ps24p72"
 [node name="random_spawner" type="Node2D" parent="." unique_id=6995168]
 script = ExtResource("17_by343")
 
-[node name="temp_parent" type="Node2D" parent="." unique_id=605491896]
-visible = false
-
-[node name="camera" type="Camera2D" parent="." unique_id=478716299]
-zoom = Vector2(3, 3)
-
 [node name="economy_system" type="Node" parent="." unique_id=832363152]
 script = ExtResource("12_8v8f1")
 
 [node name="upgrades_manager" type="Node" parent="." unique_id=286692799]
 script = ExtResource("15_d1g8r")
 metadata/_custom_type_script = "uid://cx2lask71vota"
-
-[node name="debug_ui" type="Control" parent="." unique_id=346290578]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="gold" type="Label" parent="debug_ui" unique_id=847095764]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -33.5
-offset_top = -88.0
-offset_right = 33.5
-offset_bottom = -65.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "Golds: -1"
 
 [node name="game_tick" type="Timer" parent="." unique_id=2141762359]
 autostart = true
